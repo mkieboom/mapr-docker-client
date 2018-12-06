@@ -22,7 +22,14 @@ docker build -t mkieboom/mapr-client \
   .
 ```
 
-##### Launch the container 
+##### Build the custom myapp
+The myapp docker container is based on the mapr-client we build previously.
+```
+cd mapr-client-myapp
+bash build-image.sh
+```
+
+##### Launch the myapp container 
 ```
 # Edit the run-image.sh script
 vi run-image.sh
