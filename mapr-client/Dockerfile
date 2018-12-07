@@ -57,10 +57,6 @@ RUN yum install -y mapr-client
 RUN groupadd -g ${MAPR_CONTAINER_GID} ${MAPR_CONTAINER_GROUP}
 RUN useradd -u ${MAPR_CONTAINER_UID} -g ${MAPR_CONTAINER_GID} ${MAPR_CONTAINER_USER}
 
-# Optionally Allow user(s) to run sudo on specific commands
-#RUN yum install -y sudo
-#RUN echo "${MAPR_CONTAINER_USER} ALL=(ALL) NOPASSWD: /path/to/command" >> /etc/sudoers
-
 # Configure the client (-c specifies client deployment)
 RUN /opt/mapr/server/configure.sh \
       -N ${MAPR_CLUSTER} \
