@@ -89,18 +89,6 @@ spec:
     - sleep
     - "1000000"
     env:
-    #   - name: MAPR_CLUSTER
-    #     value: "demo.mapr.com"
-    #   - name: MAPR_CLDB_HOSTS
-    #     value: "172.16.4.233"
-    #   - name: MAPR_CONTAINER_USER
-    #     value: "mapr"
-    #   - name: MAPR_CONTAINER_GROUP
-    #     value: "mapr"
-    #   - name: MAPR_CONTAINER_UID
-    #     value: "5000"
-    #   - name: MAPR_CONTAINER_GID
-    #     value: "5000"
       - name: MAPR_TICKETFILE_LOCATION
         value: "/tmp/maprticket/CONTAINER_TICKET"
     resources:
