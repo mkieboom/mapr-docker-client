@@ -9,7 +9,7 @@ FROM centos
 
 MAINTAINER mkieboom @ mapr.com
 
-# Set the defaultsbut allow overriding them using build arguments
+# Set the defaults but allow overriding them using build arguments
 ARG MAPR_VERSION=6.0.1
 ENV MAPR_VERSION ${MAPR_VERSION}
 ARG MEP_VERSION=5.0.0
@@ -57,11 +57,22 @@ RUN yum install -y mapr-client
 RUN groupadd -g ${MAPR_CONTAINER_GID} ${MAPR_CONTAINER_GROUP}
 RUN useradd -u ${MAPR_CONTAINER_UID} -g ${MAPR_CONTAINER_GID} ${MAPR_CONTAINER_USER}
 
+# Optionally Allow user(s) to run sudo on specific commands
+#RUN yum install -y sudo
+#RUN echo "${MAPR_CONTAINER_USER} ALL=(ALL) NOPASSWD: /path/to/command" >> /etc/sudoers
+
 # Configure the client (-c specifies client deployment)
 RUN /opt/mapr/server/configure.sh \
       -N ${MAPR_CLUSTER} \
       -C ${MAPR_CLDB_HOSTS} \
       -c -secure
+
+# Add a generic non-root user and group
+RUN groupadd -g 9000 containergroup
+RUN useradd -u 9000 -g 9000 containeruser
+
+# Change user to run container as non-root user
+USER containeruser
 
 # Keep container running
 CMD /bin/bash
