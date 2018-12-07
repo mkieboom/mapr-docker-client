@@ -88,7 +88,7 @@ spec:
     args:
     - sleep
     - "1000000"
-    # env:
+    env:
     #   - name: MAPR_CLUSTER
     #     value: "demo.mapr.com"
     #   - name: MAPR_CLDB_HOSTS
