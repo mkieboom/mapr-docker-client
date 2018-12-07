@@ -31,7 +31,7 @@ data:
 # 1. maprlogin password -user mapr
 # 2. echo -n $(cat /tmp/maprticket_####) | base64 -w 0
 # 3. Copy the base64 encoded ticket into the CONTAINER_TICKET line, eg:
-  CONTAINER_TICKET: demo.mapr.com JLdDCHaCl9KDb742EtLLZnAO3FvWmmnnpew3xlbR8bbdpKI8F/fdr/FHz6z2BRnAr0zzd9e+3IzWjWaiccpdK6dkO7xFSAA+9H8J7rd1hl2Z9v37myvSiuv7PvLKB+12uD9j2MZ3Cq4Zt7/7JCpXAdaRtU/p2uYY58TO8bwWAAqbxoSgbvmbLluVY8RbkZJaBVhk5Y7opCcjH5mPqlPAs2CU5vWcd9jKVb9c8DyG7IN+yLUFpybOXdij2DyVaNJIvlCkpx+BTI6ldOx4A+NaKu0=
+  CONTAINER_TICKET: ZGVtby5tYXByLmNvbSBKTGREQ0hhQ2w5S0RiNzQyRXRMTFpuQU8zRnZXbW1ubnBldzN4bGJSOGJiZHBLSThGL2Zkci9GSHo2ejJCUm5BcjB6emQ5ZSszSXpXaldhaWNjcGRLNmRrTzd4RlNBQSs5SDhKN3JkMWhsMlo5djM3bXl2U2l1djdQdkxLQisxMnVEOWoyTVozQ3E0WnQ3LzdKQ3BYQWRhUnRVL3AydVlZNThUTzhid1dBQXFieG9TZ2J2bWJMbHVWWThSYmtaSmFCVmhrNVk3b3BDY2pINW1QcWxQQXMyQ1U1dldjZDlqS1ZiOWM4RHlHN0lOK3lMVUZweWJPWGRpajJEeVZhTkpJdmxDa3B4K0JUSTZsZE94NEErTmFLdTA9
 
 # PersistentVolume for MapR Converged Data Platform
 ---
