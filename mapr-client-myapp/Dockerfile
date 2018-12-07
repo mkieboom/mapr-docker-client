@@ -9,12 +9,10 @@ FROM mkieboom/mapr-client
 
 MAINTAINER mkieboom @ mapr.com
 
-# Add a non-root user and group for demo purposes
-RUN groupadd -g 6000 group01
-RUN useradd -u 6000 -g 6000 user01
+# CUSTOM DOCKER COMMANDS HERE
 
-# Change user to run container as non-root user
-USER user01
+# TODO: Avoid users to switch back to root, eg:
+USER root
 
 # Keep container running
 CMD /bin/bash
