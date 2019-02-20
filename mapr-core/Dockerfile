@@ -1,4 +1,4 @@
-# MapR client(s) running in a Docker container
+# MapR core running in a Docker container
 #
 # VERSION 0.1 - not for production, use at own risk
 #
@@ -50,8 +50,8 @@ RUN yum install -y java-1.8.0-openjdk net-tools
 # Install the mapr gpg key
 RUN rpm --import http://package.mapr.com/releases/pub/maprgpg.key
 
-# Install the MapR client(s)
-RUN yum install -y mapr-client
+# Install the MapR core
+RUN yum install -y mapr-core
 
 # Add the mapr user and group
 RUN groupadd -g ${MAPR_CONTAINER_GID} ${MAPR_CONTAINER_GROUP}

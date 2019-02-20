@@ -24,7 +24,7 @@ docker run -it \
 -e MAPR_CONTAINER_GID=$MAPR_CONTAINER_GID \
 -v $MAPR_TICKET_LOCATION:/tmp/maprticket:ro \
 -e MAPR_TICKETFILE_LOCATION=/tmp/maprticket \
-mkieboom/mapr-client:$CONTAINER_VERSION
+mkieboom/mapr-core:$CONTAINER_VERSION
 
 # For secure clusters, genarate a ticket and provide the ticket to docker run:
 # -v /tmp/mapr-ticket:/tmp/longlived_ticket:ro \

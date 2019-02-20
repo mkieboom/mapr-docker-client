@@ -1,0 +1,110 @@
+# MapR Volume Driver Plugin for Kubernetes
+
+# Using the MapR Volume Driver Plugin for dynamic provisioning
+
+# Provisioning: dynamic
+# Container:    mapr-core
+
+# Prerequisites: mapr-core-volume volume on MapR Cluster:
+# maprcli volume create -name mapr-core-volume -path /mapr-core-volume
+
+# MapR Apps Namespace
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mapr-core
+  labels:
+    name: mapr-core
+
+
+# Ticket to authenticate with MapR Converged Data Platform
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mapr-ticket-secret
+  namespace: mapr-core
+type: Opaque
+data:
+# To create a Ticket, login onto the MapR cluster and execute following:
+# 1. maprlogin password -user mapr
+# 2. echo -n $(cat /tmp/maprticket_####) | base64 -w 0
+# 3. Copy the base64 encoded ticket into the CONTAINER_TICKET line, eg:
+  CONTAINER_TICKET: ZGVtby5tYXByLmNvbSBKTGREQ0hhQ2w5S0RiNzQyRXRMTFpuQU8zRnZXbW1ubnBldzN4bGJSOGJiZHBLSThGL2Zkci9GSHo2ejJCUm5BcjB6emQ5ZSszSXpXaldhaWNjcGRLNmRrTzd4RlNBQSs5SDhKN3JkMWhsMlo5djM3bXl2U2l1djdQdkxLQisxMnVEOWoyTVozQ3E0WnQ3LzdKQ3BYQWRhUnRVL3AydVlZNThUTzhid1dBQXFieG9TZ2J2bWJMbHVWWThSYmtaSmFCVmhrNVk3b3BDY2pINW1QcWxQQXMyQ1U1dldjZDlqS1ZiOWM4RHlHN0lOK3lMVUZweWJPWGRpajJEeVZhTkpJdmxDa3B4K0JUSTZsZE94NEErTmFLdTA9
+
+# PersistentVolume for MapR Converged Data Platform
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mapr-core
+  namespace: mapr-core
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  claimRef:
+    namespace: mapr-core
+    name: pvc-mapr-core
+  flexVolume:
+    driver: "mapr.com/maprfs"
+    options:
+      cluster: "demo.mapr.com"
+      cldbHosts: "172.16.4.233"
+      volumePath: "/mapr-core-volume"
+      securityType: "secure"
+      ticketSecretName: "mapr-ticket-secret"
+      ticketSecretNamespace: "mapr-core"
+
+# PVC
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-mapr-core
+  namespace: mapr-core
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5G
+
+# Pod
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mapr-core
+  namespace: mapr-core
+spec:
+  containers:
+  - name: mapr-core
+    image: mkieboom/mapr-core
+    imagePullPolicy: IfNotPresent 
+    args:
+    - sleep
+    - "1000000"
+    env:
+      - name: MAPR_TICKETFILE_LOCATION
+        value: "/tmp/maprticket/CONTAINER_TICKET"
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "500m"
+    volumeMounts:
+    - name: maprvolume
+      mountPath: /mapr
+    - name: mapr-ticket-secret
+      mountPath: "/tmp/maprticket"
+      readOnly: true
+  volumes:
+    - name: maprvolume
+      persistentVolumeClaim:
+        claimName: pvc-mapr-core
+    - name: mapr-ticket-secret
+      secret:
+        secretName: mapr-ticket-secret
